@@ -21,8 +21,8 @@ exports.uploadCSV = async (req, res) => {
       });
 
       results.push({
-        symbol: cleanedRow.symbol?.toUpperCase(),  // Ensure symbol is uppercase
-        nameOfCompany: cleanedRow.nameofcompany,   // Map cleaned field to model
+        symbol: cleanedRow.symbol?.toUpperCase(), // Ensure symbol is uppercase
+        nameOfCompany: cleanedRow.nameofcompany, // Map cleaned field to model
       });
     })
     .on("end", async () => {
@@ -44,7 +44,6 @@ exports.uploadCSV = async (req, res) => {
     });
 };
 
-
 // Fetch all stock data
 exports.getStocks = async (req, res) => {
   try {
@@ -57,10 +56,52 @@ exports.getStocks = async (req, res) => {
 
 // Delete all stock data
 exports.deleteAllStocks = async (req, res) => {
-    try {
-      await StockModel.deleteMany({}); // Delete all records
-      res.status(200).json({ message: "All stock data deleted successfully!" });
-    } catch (error) {
-      res.status(400).json({ error: "Error deleting stocks", details: error });
+  try {
+    await StockModel.deleteMany({}); // Delete all records
+    res.status(200).json({ message: "All stock data deleted successfully!" });
+  } catch (error) {
+    res.status(400).json({ error: "Error deleting stocks", details: error });
+  }
+};
+
+// this api is for add trade 
+
+exports.addTrade = async (req, res) => {
+  try {
+    const {
+      symbol,
+      nameOfCompany,
+      stockName,
+      buyDate,
+      buyPrice,
+      sellDate,
+      sellPrice,
+      quantity,
+      stopLoss,
+    } = req.body;
+
+    // Validate required fields
+    if (!symbol || !buyDate || !buyPrice || !quantity) {
+      return res.status(400).json({ message: "Missing required fields." });
     }
-  };
+
+    // Create and save new trade
+    const newTrade = new StockModel({
+      symbol,
+      nameOfCompany,
+      stockName,
+      buyDate,
+      buyPrice,
+      sellDate,
+      sellPrice,
+      quantity,
+      stopLoss,
+    });
+
+    const saved = await newTrade.save();
+    res.status(201).json({ message: "Trade added successfully!", data: saved });
+  } catch (err) {
+    console.error("Error in addTrade controller:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};

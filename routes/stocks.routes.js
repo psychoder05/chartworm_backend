@@ -8,13 +8,13 @@ const StocksController = require('../controllers/stock.controller');
  *   get:
  *     tags:
  *       - Stock
- *     summary: Get stock data for a specific symbol
- *     description: Retrieve stock data including daily prices (open, high, low, close) and volume for a specific stock symbol.
+ *     summary: Get stock data for a specific NSE symbol
+ *     description: Retrieve real-time stock data (open, high, low, close, volume, etc.) using Yahoo Finance.
  *     parameters:
  *       - name: symbol
  *         in: path
  *         required: true
- *         description: Stock symbol (e.g., IBM, AAPL, INFY, etc.)
+ *         description: NSE stock symbol (e.g., INFY, TCS, RELIANCE)
  *         schema:
  *           type: string
  *     responses:
@@ -31,48 +31,46 @@ const StocksController = require('../controllers/stock.controller');
  *                 data:
  *                   type: object
  *                   properties:
- *                     Meta_Data:
- *                       type: object
- *                       properties:
- *                         1_Information:
- *                           type: string
- *                           example: "Daily Prices (open, high, low, close) and Volumes"
- *                         2_Symbol:
- *                           type: string
- *                           example: "IBM"
- *                         3_Last_Refreshed:
- *                           type: string
- *                           example: "2023-01-21"
- *                     Time_Series_Daily:
- *                       type: object
- *                       additionalProperties:
- *                         type: object
- *                         properties:
- *                           open:
- *                             type: string
- *                             example: "142.00"
- *                           high:
- *                             type: string
- *                             example: "143.30"
- *                           low:
- *                             type: string
- *                             example: "141.50"
- *                           close:
- *                             type: string
- *                             example: "142.80"
- *                           volume:
- *                             type: string
- *                             example: "3200000"
+ *                     symbol:
+ *                       type: string
+ *                       example: "INFY.NS"
+ *                     name:
+ *                       type: string
+ *                       example: "Infosys Limited"
+ *                     price:
+ *                       type: number
+ *                       example: 1460.75
+ *                     previousClose:
+ *                       type: number
+ *                       example: 1458.20
+ *                     open:
+ *                       type: number
+ *                       example: 1465.00
+ *                     dayHigh:
+ *                       type: number
+ *                       example: 1472.00
+ *                     dayLow:
+ *                       type: number
+ *                       example: 1451.50
+ *                     volume:
+ *                       type: number
+ *                       example: 5218650
+ *                     currency:
+ *                       type: string
+ *                       example: "INR"
+ *                     marketState:
+ *                       type: string
+ *                       example: "REGULAR"
  *       400:
- *         description: Bad Request - Invalid input or missing stock symbol
- *       401:
- *         description: Authorization Failure
+ *         description: Bad Request - Missing or invalid stock symbol
  *       422:
- *         description: Validation Error - Input does not meet requirements
+ *         description: Validation Error
  *       500:
- *         description: Internal Server Error - Unexpected failure
+ *         description: Internal Server Error
  */
 
 router.get('/stock/:symbol', StocksController.fetchStockData);
+
+
 
 module.exports = router;

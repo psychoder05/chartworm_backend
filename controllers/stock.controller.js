@@ -1,38 +1,47 @@
 'use strict';
-const axios = require('axios');
-const { NseIndia } = require('stock-nse-india');
-const nseIndia = new NseIndia();
 
-// Fetch details of a stock
-nseIndia.getEquityDetails('INFY').then(data => {
-  console.log(data);
-});
+const yf = require('yahoo-finance2').default;
 
+// Controller function for Express.js
 const fetchStockData = async (req, res) => {
   try {
-    const stockSymbol = req.params.symbol;
+    const symbol = req.params.symbol?.toUpperCase();
 
-    if (!stockSymbol) {
+    if (!symbol) {
       return res.status(400).json({
         error: "Stock symbol is required. Please provide it as a path parameter.",
       });
     }
 
-    const stockData = await nseIndia.getEquityDetails(stockSymbol);
+    // Append ".NS" for NSE-listed companies
+    const yahooSymbol = `${symbol}.NS`;
 
-    console.log("Raw Stock Data:", stockData);
+    // Fetch stock quote
+    const stockData = await yf.quote(yahooSymbol);
 
-    // Handle cases where no data is returned
+    // Check if data is returned
     if (!stockData || Object.keys(stockData).length === 0) {
       return res.status(404).json({
         success: false,
-        message: `No data found for stock symbol: ${stockSymbol}`,
+        message: `No data found for stock symbol: ${symbol}`,
       });
     }
 
+    // Return formatted stock data
     return res.status(200).json({
       success: true,
-      data: stockData,
+      data: {
+        symbol: stockData.symbol,
+        name: stockData.shortName,
+        price: stockData.regularMarketPrice,
+        previousClose: stockData.regularMarketPreviousClose,
+        open: stockData.regularMarketOpen,
+        dayHigh: stockData.regularMarketDayHigh,
+        dayLow: stockData.regularMarketDayLow,
+        volume: stockData.regularMarketVolume,
+        currency: stockData.currency,
+        marketState: stockData.marketState,
+      },
     });
   } catch (error) {
     console.error("Error fetching stock data:", error);
@@ -42,7 +51,7 @@ const fetchStockData = async (req, res) => {
   }
 };
 
-// Export the function
+// Export function
 module.exports = {
   fetchStockData,
 };

@@ -1,14 +1,45 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const schema = new mongoose.Schema(
+const stockSchema = new mongoose.Schema(
   {
     symbol: {
       type: String,
       default: null,
-      set: (value) => value?.toUpperCase(), // Convert to uppercase
+      set: (value) => value?.toUpperCase(),
+      trim: true,
     },
     nameOfCompany: {
       type: String,
+      default: null,
+      trim: true,
+    },
+    stockName: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    buyDate: {
+      type: Date,
+      default: null,
+    },
+    buyPrice: {
+      type: Number,
+      default: null,
+    },
+    sellDate: {
+      type: Date,
+      default: null,
+    },
+    sellPrice: {
+      type: Number,
+      default: null,
+    },
+    quantity: {
+      type: Number,
+      default: null,
+    },
+    stopLoss: {
+      type: Number,
       default: null,
     },
   },
@@ -20,6 +51,4 @@ const schema = new mongoose.Schema(
   }
 );
 
-const Stocks = mongoose.model('Stocks', schema);
-
-module.exports = Stocks;
+module.exports = mongoose.model("Stock", stockSchema);
