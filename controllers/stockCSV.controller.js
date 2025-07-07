@@ -254,7 +254,6 @@ const getLiveOpenPositions = async (req, res) => {
   try {
     const trades = await TradesModel.find();
 
-    // ✅ Include any trade that has remaining quantity > 0
     const openBuys = trades.filter(
       t =>
         t.buyDate &&
