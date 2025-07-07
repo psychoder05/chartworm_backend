@@ -35,6 +35,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 app.use('/api/', require('./routes/users.routes'));
 app.use('/api/', require('./routes/stocks.routes'));
 app.use('/api/', require('./routes/stocksCSV.routes'));
+app.use('/api/', require('./routes/tradeExplain.routes'));
 
 server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

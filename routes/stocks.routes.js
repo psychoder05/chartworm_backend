@@ -7,7 +7,7 @@ const StocksController = require('../controllers/stock.controller');
  * /api/stock/{symbol}:
  *   get:
  *     tags:
- *       - Stock
+ *       - Stocks List
  *     summary: Get stock data for a specific NSE symbol
  *     description: Retrieve real-time stock data (open, high, low, close, volume, etc.) using Yahoo Finance.
  *     parameters:

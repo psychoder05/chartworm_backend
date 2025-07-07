@@ -1,26 +1,7 @@
 const mongoose = require("mongoose");
 
-const stockSchema = new mongoose.Schema(
+const tradesSchema = new mongoose.Schema(
   {
-    symbol: {
-      type: String,
-      default: null,
-      set: (value) => value?.toUpperCase(),
-      trim: true,
-    },
-    nameOfCompany: {
-      type: String,
-      default: null,
-      trim: true,
-    },
-    price: { type: Number, required: true },
-    previousClose: { type: Number },
-    open: { type: Number },
-    dayHigh: { type: Number },
-    dayLow: { type: Number },
-    volume: { type: Number },
-    currency: { type: String },
-    marketState: { type: String },
     stockName: {
       type: String,
       default: null,
@@ -50,6 +31,10 @@ const stockSchema = new mongoose.Schema(
       type: Number,
       default: null,
     },
+    exitType: {
+      type: String,
+      default: null,
+    },
   },
   {
     timestamps: {
@@ -59,4 +44,4 @@ const stockSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Stock", stockSchema);
+module.exports = mongoose.model("trades", tradesSchema);
