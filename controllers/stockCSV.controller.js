@@ -259,7 +259,7 @@ const getLiveOpenPositions = async (req, res) => {
       t =>
         t.buyDate &&
         Array.isArray(t.quantity) &&
-        t.quantity[0] > 0 // quantity[0] means remaining
+        t.quantity[0] > 0 
     );
 
     const positions = await Promise.all(
