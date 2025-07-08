@@ -5,7 +5,6 @@ const { JWT_SECRET_KEY } = require("../utility/config");
 const sendMail = require("../utility/mail");
 const generateOTP = require("../utility/otpgenerate");
 
-// Create Signup Function
 
 exports.signup = async (req, res) => {
   try {
@@ -35,7 +34,6 @@ exports.signup = async (req, res) => {
   }
 };
 
-//  Create Login Function
 
 exports.login = async (req, res) => {
   try {
