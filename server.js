@@ -14,7 +14,7 @@ const options = {
     info: {
       title: 'Chartworm API',
       version: '1.0.0',
-      description: 'CRUD API with MongoDB documentation',
+      description: 'Chartworm API with MongoDB documentation',
     },
     components: {
       securitySchemes: {
@@ -37,6 +37,10 @@ app.use('/api/', require('./routes/stocks.routes'));
 app.use('/api/', require('./routes/stocksCSV.routes'));
 app.use('/api/', require('./routes/tradeExplain.routes'));
 
-server.listen(PORT, () => {
+// server.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
+
+server.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on port ${PORT}`);
 });
